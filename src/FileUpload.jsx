@@ -5,14 +5,15 @@ import { Button } from "./components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "./components/ui/card"
+import { Slider } from "./components/ui/slider"
+import { Label } from "./components/ui/label"
 
 const PDFUploader = () => {
   const [file, setFile] = useState(null)
+  const [complexity, setComplexity] = useState(1)
   const fileInputRef = useRef(null)
 
   const handleDragOver = (event) => {
@@ -41,13 +42,16 @@ const PDFUploader = () => {
     }
   }
 
+  const handleComplexityChange = (value) => {
+    setComplexity(value[0])
+  }
+
   return (
     <Card className="w-[350px]">
       <CardHeader>
-        <CardTitle>Upload Medical Report</CardTitle>
-        <CardDescription>Drag and drop or click to upload your Medical Report.</CardDescription>
+        <CardTitle>Upload your medical report</CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className="space-y-4">
         <div
           onDragOver={handleDragOver}
           onDrop={handleDrop}
@@ -83,12 +87,20 @@ const PDFUploader = () => {
           onChange={handleFileChange}
           className="hidden"
         />
+        <div className="space-y-2">
+          <Label htmlFor="complexity-slider">Complexity: {complexity}</Label>
+          <Slider
+            id="complexity-slider"
+            min={1}
+            max={5}
+            step={1}
+            value={[complexity]}
+            onValueChange={handleComplexityChange}
+          />
+        </div>
       </CardContent>
-      <CardFooter className="flex justify-end">
-        <Button disabled={!file}>Upload</Button>
-      </CardFooter>
     </Card>
   )
 }
 
-export default PDFUploader;
+export default PDFUploader
