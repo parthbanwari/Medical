@@ -1,50 +1,52 @@
-import React, { useState, useRef } from "react"
-import { FileIcon, UploadIcon, XIcon } from "lucide-react"
+import React, { useState, useRef } from "react";
+import { FileIcon, UploadIcon, XIcon } from "lucide-react";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
-import { Button } from "./components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "./components/ui/card"
-import { Slider } from "./components/ui/slider"
-import { Label } from "./components/ui/label"
+import { Button } from "./components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "./components/ui/card";
+import { Slider } from "./components/ui/slider";
+import { Label } from "./components/ui/label";
 
 const PDFUploader = () => {
-  const [file, setFile] = useState(null)
-  const [complexity, setComplexity] = useState(1)
-  const fileInputRef = useRef(null)
+  const [file, setFile] = useState(null);
+  const [complexity, setComplexity] = useState(1);
+  const fileInputRef = useRef(null);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleDragOver = (event) => {
-    event.preventDefault()
-  }
+    event.preventDefault();
+  };
 
   const handleDrop = (event) => {
-    event.preventDefault()
-    const droppedFile = event.dataTransfer.files[0]
+    event.preventDefault();
+    const droppedFile = event.dataTransfer.files[0];
     if (droppedFile && droppedFile.type === "application/pdf") {
-      setFile(droppedFile)
+      setFile(droppedFile);
     }
-  }
+  };
 
   const handleFileChange = (event) => {
-    const selectedFile = event.target.files[0]
+    const selectedFile = event.target.files[0];
     if (selectedFile && selectedFile.type === "application/pdf") {
-      setFile(selectedFile)
+      setFile(selectedFile);
     }
-  }
+  };
 
   const handleRemoveFile = () => {
-    setFile(null)
+    setFile(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""
+      fileInputRef.current.value = "";
     }
-  }
+  };
 
   const handleComplexityChange = (value) => {
-    setComplexity(value[0])
-  }
+    setComplexity(value[0]);
+  };
+
+  const handleUpload = () => {
+    // You can add additional upload logic here if necessary
+    navigate('/summary'); // Navigate to the Summary page
+  };
 
   return (
     <Card className="w-[350px]">
@@ -64,8 +66,8 @@ const PDFUploader = () => {
               <span className="font-medium text-sm text-gray-600">{file.name}</span>
               <button
                 onClick={(e) => {
-                  e.stopPropagation()
-                  handleRemoveFile()
+                  e.stopPropagation();
+                  handleRemoveFile();
                 }}
                 className="ml-2 text-gray-500 hover:text-gray-700"
               >
@@ -99,8 +101,11 @@ const PDFUploader = () => {
           />
         </div>
       </CardContent>
+      <Button onClick={handleUpload} disabled={!file}>
+        Upload
+      </Button>
     </Card>
-  )
-}
+  );
+};
 
-export default PDFUploader
+export default PDFUploader;
