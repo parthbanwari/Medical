@@ -91,9 +91,11 @@ const PDFUploader = () => {
             className="hidden"
           />
         </CardContent>
-        <Button onClick={handleUpload} disabled={!file}>
-          Upload
-        </Button>
+        <div className="flex justify-center mb-4">
+          <Button onClick={handleUpload} disabled={!file} className="rounded-xl bg-red-500">
+            Upload
+          </Button>
+        </div>
       </Card>
     </div>
   );
